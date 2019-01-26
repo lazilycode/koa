@@ -1,0 +1,33 @@
+{
+  "name": "koa2",
+  "version": "1.0.0",
+  "description": "koa2相关功能",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazilycode/koa.git"
+  },
+  "keywords": [
+    "koa2"
+  ],
+  "author": "lazyCode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lazilycode/koa/issues"
+  },
+  "homepage": "https://github.com/lazilycode/koa#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "koa-bodyparser": "^3.2.0",
+    "koa-log4": "^2.3.2",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "koa2": "^2.0.0-alpha.7",
+    "koa2-request": "^1.0.4",
+    "pm2": "^2.10.4"
+  }
+}
