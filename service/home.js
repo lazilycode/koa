@@ -1,4 +1,4 @@
-var User = require("../model/User.js").User;
+var User = require("../model/User.js");
 module.exports = {
   register: async function(name, pwd) {
     let data;
@@ -22,10 +22,6 @@ module.exports = {
     return data;
   },
   testMysql:async function () {
-    User.findAll({
-      attributes: ['nsme']
-    }).then(res=>{
-      console.log('=======',res,88899) 
-     })
-  }
+    return await User.findOne().get('firstName')
+  },
 };
