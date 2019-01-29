@@ -1,6 +1,8 @@
 module.exports = {
   index: async(ctx, next) => {
-    await ctx.render("home/index", {title: "iKcamp欢迎您"})
+    const { app } = ctx
+    // await ctx.render("home/index", {title: "iKcamp欢迎您"})
+    await app.service.home.testMysql()
   },
   home: async(ctx, next) => {
     console.log(ctx.request.query)
