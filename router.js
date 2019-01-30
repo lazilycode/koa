@@ -13,4 +13,4 @@ module.exports = (app) => {
   
   app.use(router.routes())
      .use(router.allowedMethods())
-}
+} 
