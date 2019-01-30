@@ -2,6 +2,7 @@ const router = require('koa-router')()
 
 module.exports = (app) => {
   router.get( '/', app.controller.home.index )
+  router.get( '/insert', app.controller.home.insert )
   
   // router.get('/home', app.controller.home.home)
   

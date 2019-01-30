@@ -4,15 +4,23 @@ const { STRING, INTEGER, DATE } = Sequelize;
 
 let User={}
 User = sequelize.define('user', {
-  firstName: {
+  name: {
     type: Sequelize.STRING
   },
-  lastName: {
+  password: {
+    type: Sequelize.STRING
+  },
+  mail: {
     type: Sequelize.STRING
   }
 });
+
 // User.sync({force: true}).then(() => {
-//   // 表已创建
+//   // // 表已创建
+//   // name: 'XiaoMing',
+//   //   password: '1234567890',
+//   //   mail: 'xiaoming@qq.com'
+
 //   return User.create({
 //     firstName: 'John',
 //     lastName: 'Hancock'
