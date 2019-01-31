@@ -1,4 +1,5 @@
 var User = require("../model/User.js");
+const fs = require('fs')
 module.exports = {
   testMysql:async function () {
     return await User.findOne().get('firstName')
@@ -16,5 +17,10 @@ module.exports = {
           console.log('inserted XiaoMing error');
           console.log(err.message);
     });
-  }
+  },
+  async upload(ctx){
+    console.log(ctx.request.files);
+    console.log(ctx.request.body);
+    ctx.body = JSON.stringify(ctx.request.files);
+    }
 };

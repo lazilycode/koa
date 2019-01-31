@@ -16,5 +16,10 @@ module.exports = {
   async websocket(ctx, next){
     const { app } = ctx
     await ctx.render("home/websocket", {title: "iKcamp欢迎您"})
+  },
+  async uploadFiles(ctx, next){
+    const { app } = ctx
+    let result= await app.service.home.upload(ctx)
+   
   }
 }
