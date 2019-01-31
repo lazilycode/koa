@@ -11,5 +11,10 @@ module.exports = {
     const { app } = ctx
     let result= await app.service.home.testInsert()
     console.log(result,999)
+  },
+
+  async websocket(ctx, next){
+    const { app } = ctx
+    await ctx.render("home/websocket", {title: "iKcamp欢迎您"})
   }
 }
