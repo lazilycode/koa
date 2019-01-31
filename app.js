@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const WebSocket = require("koa-websocket");
 const app = WebSocket(new Koa());
-// const app = new Koa()
+
 const router = require('./router')
 const middleware = require('./middleware')
 const websocket=require('./websocket/index.js')

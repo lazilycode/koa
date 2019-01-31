@@ -5,8 +5,9 @@ app.ws.use((ctx, next) => {
   ctx.websocket.on("message", (message) => {
       console.log(message);
       for(let i = 0; i < ctxs.length; i++) {
-          if (ctx == ctxs[i]) continue;
-          ctxs[i].websocket.send(message);
+        ctxs[i].websocket.send(message);
+        //   if (ctx == ctxs[i]) continue;
+          
       }
   });
 });

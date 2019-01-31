@@ -1,37 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <input type="text" id="content" />
-    <input type="button" value="发送" id="send" />
-    
-</body>
-<script type="text/javascript">
-    /* 封装 WebSocket 实例化的方法  */
-    var CreateWebSocket = (function () {
-        return function (urlValue) {
-            if(window.WebSocket) return new WebSocket(urlValue);
-            if(window.MozWebSocket) return new MozWebSocket(urlValue);
-            return false;
-        }
-    })();
-    /* 实例化 WebSocket 连接对象, 地址为 ws 协议 */
-    var webSocket = CreateWebSocket("ws://localhost:3000");
-    /* 接收到服务端的消息时 */
-    webSocket.onmessage = function (msg) {
-        console.log("服务端说:" + msg.data);
-    };
-    /* 关闭时 */
-    webSocket.onclose = function () {
-        console.log("关闭连接");
-    };
-    /* 发送消息 */
-    document.getElementById("send").onclick = function () {
-        var str = document.getElementById("content").value;
-        webSocket.send(str);
-    }
-</script>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<script language="JavaScript" src="http://code.jquery.com/jquery-1.11.0.js"></script>
+	</head>
+
+	<body>
+		<div id="show"></div>
+		<div>
+			<input id="message" type="text" style="width: 200px">
+			<button type="button" id="send" onclick="sendMessage();">
+                Send!
+            </button>
+			<button type="button" id="send" onclick="exit();">
+        exit
+    </button>
+		</div>
+		<script>
+			var ws = new WebSocket('ws://localhost:3000');
+			ws.onopen = function(e) {
+				console.log('Connection to server opened' + ws.readyState);
+				$('#show').html("连接状态：" + ws.readyState + "</br>")
+			}
+			ws.onmessage = function(evt) {
+				$("#show").append(evt.data + "</br>");
+			}
+			ws.onclose = function(evt) {
+				console.log("WebSocketClosed!");
+				console.log(evt);
+			};
+
+			function sendMessage() {
+				var msg = $('#message').val();
+				var s = {
+					msg: msg,
+					name: "山上的大王"
+				};
+				ws.send(JSON.stringify(s));
+				chang();
+			}
+
+			function chang() {
+				$('#message').val("");
+			}
+
+			function exit() {
+				ws.close();
+				console.log("退出啦");
+			}
+		</script>
+	</body>
+
 </html>
