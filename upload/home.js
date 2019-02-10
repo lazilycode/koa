@@ -1,7 +1,7 @@
 const koaBody = require('koa-body');
 const path = require('path');
-module.exports = () => {
-  koaBody({
+module.exports = (app) => {
+  app.use(koaBody({
     multipart:true, // 支持文件上传
     encoding:'gzip',
     formidable:{
@@ -13,5 +13,5 @@ module.exports = () => {
         // console.log(file);
       },
     }
-  })
+  }))
   } 
