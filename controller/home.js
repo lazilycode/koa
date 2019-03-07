@@ -1,9 +1,15 @@
-const amqp = require("amqplib/callback_api");
+
+
+const mqsend =require("../rabbitMq/send")
+const mqreceive =require("../rabbitMq/receive")
+
+
+console.log(mqsend)
 class home {
   async index(ctx, next) {
     const { app } = ctx;
-    let result = await app.service.home.testMysql();
-    console.log(result, 999);
+    // let result = await app.service.home.testMysql();
+    // console.log(result, 999);
     await ctx.render("home/index", { title: "iKcamp欢迎您" });
   }
 
@@ -24,40 +30,23 @@ class home {
   }
 
   async send(ctx, next) {
-    amqp.connect("amqp://localhost", function(err, conn) {
-      conn.createChannel(function(err, ch) {
-        var q = "hello";
-        var msg = "Hello World!";
-
-        ch.assertQueue(q, { durable: false });
-        ch.sendToQueue(q, Buffer.from(msg));
-       
-        console.log(" [x] Sent %s", msg);
-      })
-      setTimeout(function() {
-        conn.close();
-        process.exit(0);
-      }, 500);
+    let mes=null
+  
+    mqsend.sendQueueMsg("testQueue", "my first message", error => {
+      mes=error
+       console.log(error,9999)
     });
+    await ctx.render("home/index", { title: mes});
   }
 
   async receive(ctx, next) {
-    amqp.connect("amqp://localhost", function(err, conn) {
-      conn.createChannel(function(err, ch) {
-        var q = "hello";
-
-        ch.assertQueue(q, { durable: false });
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
-        ch.consume(
-          q,
-          function(msg) {
-            console.log(" [x] Received %s", msg.content.toString());
-           
-          },
-          { noAck: true }
-        );
-      });
-    });
+    let mes=null
+   
+    mqreceive.receiveQueueMsg("testQueue", msg => {
+      mes=msg
+      console.log(msg,99900000);
+    }); 
+    await ctx.render("home/index", { title: mes});
   }
 }
 

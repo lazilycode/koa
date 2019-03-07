@@ -1,42 +1,63 @@
-const amqp = require('amqplib/callback_api');
-class RabbitMq {
-    constructor(options) {
-        this.url=''
-      this.ex = 'XXX'
-      this.exType = 'direct'
-      this.durable = true
-      this.routeKey = 'XX'
-      this.autoDelete = true
-      this.q = 'hello'
-    }
-  
-    async send() {
-      const conn = await amqp.connect(url)
-  
-      try {
-        const ch = await conn.createChannel()
-        // 确认消息发送 ok
-        const res = await ch.assertExchange(this.ex, this.exType, { durable: this.durable })
-        // 此处 q 置空，用的是rabbitmq自动生成的队列名, exclusive 是生成排他队列, 连接断开后就会自动删除
-        const q = await ch.assertQueue('', { exclusive: false })
-  
-        console.log('==q=', q)
-        // 队列绑定 exchange
-        ch.bindQueue(q.queue, this.ex, this.routeKey)
-  
-        ch.consume(q.queue, msg => {
-          console.log('收到消息: ', msg)
-           // 发送确认消息
-          ch.ack(msg)
-        }, { noAck: false })
-  
-        // ch.close()
-      } catch (e) {
-        console.log('==e==', e)
-        ch.close()
-      }
-    }
-  }
-  
+/**
 
-  module.exports = new RabbitMq({})
+ * 对RabbitMQ的封装
+
+ */
+
+let amqp = require("amqplib");
+
+class RabbitMQ {
+  constructor() {
+    this.hosts = ['amqp://localhost'];
+    this.index = 0;
+    this.length = this.hosts.length;
+    this.open = amqp.connect(this.hosts[this.index]);
+  }
+  receiveQueueMsg(queueName, receiveCallBack, errCallBack) {
+    let self = this;
+    self.open
+      .then(function(conn) {
+        return conn.createChannel();
+      })
+      .then(function(channel) {
+        return channel
+          .assertQueue(queueName)
+
+          .then(function(ok) {
+            return channel
+              .consume(queueName, function(msg) {
+                if (msg !== null) {
+                  let data = msg.content.toString();
+
+                  channel.ack(msg);
+
+                  receiveCallBack && receiveCallBack(data);
+                }
+              })
+              .finally(function() {
+                setTimeout(() => {
+                  if (channel) {
+                    channel.close();
+                  }
+                }, 500);
+              });
+          });
+      })
+
+      .catch(function() {
+        let num = self.index++;
+
+        if (num <= self.length - 1) {
+          self.open = amqp.connect(self.hosts[num]);
+        } else {
+          self.index = 0;
+
+          self.open = amqp.connect(self.hosts[0]);
+        }
+      });
+  }
+}
+
+
+module.exports = new RabbitMQ();
+
