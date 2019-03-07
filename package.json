@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BruceCham/koa2-tutorial#readme",
   "dependencies": {
+    "amqplib": "^0.3.2",
     "ip": "^1.1.5",
     "koa": "^2.3.0",
     "koa-body": "^4.0.7",
