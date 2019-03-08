@@ -7,7 +7,7 @@ const router = require('./router')
 const middleware = require('./middleware')
 const websocket=require('./websocket/index.js')
 const upload = require('./upload/home.js')
-const amqps = require('./rabbitMq/index.js')
+
 
 // amqps(app)
 upload(app)
