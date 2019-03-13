@@ -4,6 +4,7 @@ module.exports = (app)  => {
   app.ws.use((ctx, next) => {
     ctx.websocket.on("message", message => {
       console.log(message);
+      
       mqsend.sendQueueMsg("testQueue", message, error => {
         console.log(error, 9999);
       });

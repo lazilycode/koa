@@ -19,7 +19,7 @@ module.exports = (app) => {
 
   app.use(miLog({
     env: app.env,
-    projectName: 'koa2-tutorial',
+    projectName: 'koa2',
     appLogLevel: 'debug',
     dir: 'logs',
     serverIp: ip.address()

@@ -1,5 +1,5 @@
 {
-  "name": "koa2-tutorial",
+  "name": "koa2",
   "version": "1.0.0",
   "description": "> 正是因为中间件的扩展性才使得 `Koa` 的代码简单灵活。",
   "main": "app.js",

@@ -6,7 +6,7 @@ const baseInfo = {
   appLogLevel: 'debug',
   dir: 'logs',
   env: 'dev',
-  projectName: 'koa2-tutorial',
+  projectName: 'koa2',
   serverIp: '0.0.0.0'
 }
 
